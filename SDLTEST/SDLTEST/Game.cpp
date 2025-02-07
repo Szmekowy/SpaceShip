@@ -5,12 +5,15 @@
 #include<stdio.h>
 #include<string.h>
 #include <vector>
+#include <queue>
 #include "Game.h"
+#include "Spaceship.h"
+#include "Shot.h"
 #define SCREEN_WIDTH	1920
 #define SCREEN_HEIGHT	1080
 
 using namespace std;
-Game::Game()
+Game::Game() 
 {
 	int rc;
 	rc = SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0,&window, &renderer);
@@ -18,9 +21,7 @@ Game::Game()
 		SDL_Quit();
 		printf("SDL_CreateWindowAndRenderer error: %s\n", SDL_GetError());
 	};
-
 	screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32,0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
-
 	scrtex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,SCREEN_WIDTH, SCREEN_HEIGHT);
 	t2 = 0;
 	delta = 0;
@@ -38,7 +39,7 @@ Game::Game()
 	niebieski = SDL_MapRGB(screen->format, 0x11, 0x11, 0xCC);
 	charset = SDL_LoadBMP("./cs8x8.bmp");
 	eti = SDL_LoadBMP("./eti.bmp");
-	spaceship = SDL_LoadBMP("./spaceship.bmp");
+	change_position = 0;
 }
 Game::~Game()
 {
@@ -75,16 +76,8 @@ void Game::init_game()
 		SDL_DestroyRenderer(renderer);
 		SDL_Quit();
 	};
-	if (spaceship == NULL) {
-		printf("SDL_LoadBMP(eti.bmp) error: %s\n", SDL_GetError());
-		SDL_FreeSurface(charset);
-		SDL_FreeSurface(screen);
-		SDL_DestroyTexture(scrtex);
-		SDL_DestroyWindow(window);
-		SDL_DestroyRenderer(renderer);
-		SDL_Quit();
-	};
 	SDL_FillRect(screen, NULL, czarny);
+
 }
 void Game::run()
 {
@@ -111,6 +104,9 @@ void Game::update()
 	for (auto obj : objects) {
 		obj->update(); 
 	}
+	for (auto sh : shoots) {
+		sh->update();
+	}
 }
 void Game::handle_event()
 {
@@ -118,11 +114,16 @@ void Game::handle_event()
 		switch (event.type) {
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_ESCAPE) quit = 1;
-			else if (event.key.keysym.sym == SDLK_UP) etiSpeed = 2.0;
-			else if (event.key.keysym.sym == SDLK_DOWN) etiSpeed = 0.3;
+			else if (event.key.keysym.sym == SDLK_UP) {
+				Shot* shot = new Shot(this, 200, 300);  // Tworzymy nowy obiekt Shot
+				add_object(shot);
+			}
+			else if (event.key.keysym.sym == SDLK_RIGHT) change_position = 1;
+			else if (event.key.keysym.sym == SDLK_LEFT) change_position = -1;
 			break;
 		case SDL_KEYUP:
 			etiSpeed = 1.0;
+			change_position = 0;
 			break;
 		case SDL_QUIT:
 			quit = 1;
@@ -136,7 +137,9 @@ void Game :: render()
 		for (auto obj : objects) {
 			obj->render(); 
 		}
-		DrawSurface(screen, eti,SCREEN_WIDTH / 2 + sin(distance) * SCREEN_HEIGHT / 3,SCREEN_HEIGHT / 2 + cos(distance) * SCREEN_HEIGHT / 3);
+		for (auto sh : shoots) {
+			sh->render();
+		}
 		DrawRectangle(screen, 4, 4, SCREEN_WIDTH - 8, 36, czerwony, niebieski);
 		sprintf(text, "Szablon drugiego zadania, czas trwania = %.1lf s  %.0lf klatek / s", worldTime, fps);
 		DrawString(screen, screen->w / 2 - strlen(text) * 8 / 2, 10, text, charset);
@@ -150,3 +153,8 @@ void Game::add_object(GameObject* object)
 {
 	objects.push_back(object);
 }
+void Game::shoot_s(GameObject* object)
+{
+	shoots.push_back(object);
+}
+

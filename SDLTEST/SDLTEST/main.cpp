@@ -8,6 +8,8 @@
 #include <SDL2/SDL_main.h>
 #include "Game.h"
 #include "Spaceship.h"
+#include "Shot.h"
+
 
 #define SCREEN_WIDTH	640
 #define SCREEN_HEIGHT	480
@@ -86,9 +88,12 @@ int main(int argc, char** argv) {
 	}
 
 	Game game;
+	Spaceship spaceshipObj(&game);
+	Shot shoot(&game, 1100, 580);
+	game.shoot_s(&shoot);
+	game.add_object(&spaceshipObj);
+	//game.add_object(&shoot);
 	game.init_game();
-	Spaceship spaship(&game);
-	game.add_object(&spaship);
 	game.run();
 
 	SDL_Quit();

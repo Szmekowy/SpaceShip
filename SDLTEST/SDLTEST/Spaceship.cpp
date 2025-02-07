@@ -9,19 +9,18 @@
 
 using namespace std;
 
-Spaceship::Spaceship(Game* gameInstance)
+Spaceship::Spaceship(Game *g)
 {
-	 game = gameInstance;
+	game = g;
+	spaceshipbmp = SDL_LoadBMP("./spaceship.bmp");
 	pos_x = 1000;
 	pos_y = 1065;
 }
 void Spaceship::update()
 {
-	pos_y--;
-	if (pos_y == 15)
-		pos_y = 1000;
+	pos_x += game->change_position;
 }
 void Spaceship::render()
 {
-	DrawSurface(game->screen, game->spaceship, pos_x, pos_y);
+	DrawSurface(game->screen, spaceshipbmp, pos_x, pos_y);
 }
