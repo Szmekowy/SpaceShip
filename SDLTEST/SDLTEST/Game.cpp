@@ -40,9 +40,8 @@ Game::Game()
 	charset = SDL_LoadBMP("./cs8x8.bmp");
 	eti = SDL_LoadBMP("./eti.bmp");
 	change_position = 0;
-	for (int i = 0; i < 36; i++)
-		for (int j = 0; j < 64; j++)
-			array[i][j] = 0;
+	delay = 0.1;
+	game_area();
 }
 Game::~Game()
 {
@@ -88,6 +87,8 @@ void Game::run(Spaceship& spaceship)
 		handle_event( spaceship);
 		update();
 		render();
+		if(quit!=1)
+		game_area();
 	}
 }
 void Game::update()
@@ -96,6 +97,7 @@ void Game::update()
 	delta = (t2 - t1) * 0.001;
 	t1 = t2;
 	worldTime += delta;
+	delay += delta;
 	distance += etiSpeed * delta;
 	fpsTimer += delta;
 	if (fpsTimer > 0.5) {
@@ -107,9 +109,8 @@ void Game::update()
 	for (auto obj : objects) {
 		obj->update(); 
 	}
-	for (auto sh : shoots) {
-		sh->update();
-	}
+
+	
 }
 void Game::handle_event(Spaceship &spaceship)
 {
@@ -117,12 +118,7 @@ void Game::handle_event(Spaceship &spaceship)
 		switch (event.type) {
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_ESCAPE) quit = 1;
-		///	else if (event.key.keysym.sym == SDLK_UP) {
-			///	Shot* shot = new Shot(this,spaceship.pos_x,spaceship.pos_y+20);  // Tworzymy nowy obiekt Shot
-			///	add_object(shot);
-			///}
-			///else if (event.key.keysym.sym == SDLK_RIGHT) change_position = 1;
-			///else if (event.key.keysym.sym == SDLK_LEFT) change_position = -1;
+		
 			break;
 		case SDL_KEYUP:
 			etiSpeed = 1.0;
@@ -133,14 +129,12 @@ void Game::handle_event(Spaceship &spaceship)
 		};
 		const Uint8* state = SDL_GetKeyboardState(NULL);
 		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_LCTRL]) {
-			Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y + 20);  // Tworzymy nowy obiekt Shot
-			add_object(shot);
+			shoot(spaceship);
 			change_position = -1;
 		}
 		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_LCTRL])
 		{
-			Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y + 20);  // Tworzymy nowy obiekt Shot
-			add_object(shot);
+			shoot(spaceship);
 			change_position = 1;
 		}
 		else if (state[SDL_SCANCODE_RIGHT])
@@ -153,13 +147,21 @@ void Game::handle_event(Spaceship &spaceship)
 		}
 		else if (state[SDL_SCANCODE_LCTRL])
 		{
-			Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y + 20);  // Tworzymy nowy obiekt Shot
-			add_object(shot);
+			shoot(spaceship);
 		}
 		else
 			change_position = 0;
 
 	};
+}
+void Game::shoot(Spaceship& spaceship)
+{
+	if (delay > 0.1)
+	{
+		Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y - 40);  // Tworzymy nowy obiekt Shot
+		add_object(shot);
+		delay = 0;
+	}
 }
 void Game :: render()
 {
@@ -167,9 +169,7 @@ void Game :: render()
 		for (auto obj : objects) {
 			obj->render(); 
 		}
-		for (auto sh : shoots) {
-			sh->render();
-		}
+		
 		DrawRectangle(screen, 4, 4, SCREEN_WIDTH - 8, 36, czerwony, niebieski);
 		sprintf(text, "Szablon drugiego zadania, czas trwania = %.1lf s  %.0lf klatek / s", worldTime, fps);
 		DrawString(screen, screen->w / 2 - strlen(text) * 8 / 2, 10, text, charset);
@@ -183,15 +183,17 @@ void Game::add_object(GameObject* object)
 {
 	objects.push_back(object);
 }
-void Game::shoot_s(GameObject* object)
-{
-	shoots.push_back(object);
-}
 void Game::remove_shot(GameObject* shot) {
-	auto it = std::find(shoots.begin(), shoots.end(), shot);
-	if (it != shoots.end()) {
-		delete* it; 
-		shoots.erase(it);  
+	auto it = std::find(objects.begin(), objects.end(), shot);
+	if (it != objects.end()) {
+		delete* it;
+		objects.erase(it);
 	}
+	
 }
-
+void Game::game_area()
+{
+	for (int i = 0; i < 36; i++)
+		for (int j = 0; j < 64; j++)
+			array[i][j] = 0;
+}

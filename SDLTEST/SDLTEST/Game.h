@@ -19,6 +19,7 @@ using namespace std;
 class Game {
 private:
 	int t1, t2, quit, frames;
+	double delay;
 	double delta, worldTime, fpsTimer, fps, distance, etiSpeed;
 	char text[128];
 	int czarny;
@@ -26,9 +27,8 @@ private:
 	int czerwony;
 	int niebieski;
 	vector <GameObject*> objects;
-	vector <GameObject*> shoots;
 public:
-	int array[50][64];
+	int array[40][64];
 	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
 	friend void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface* charset);
 	int change_position;
@@ -44,10 +44,11 @@ public:
 	void init_game();
 	void update();
 	void render();
-	void shoot_s(GameObject*);
 	void remove_shot(GameObject*);
 	friend class Spaceship;
 	void handle_event(Spaceship& spaceship);
 	void run(Spaceship& spaceship);
+	void game_area();
+	void shoot(Spaceship& spaceship);
 };
 #endif

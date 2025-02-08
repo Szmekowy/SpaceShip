@@ -9,20 +9,25 @@
 
 using namespace std;
 
-Shot::Shot(Game* g, int x, int y)
-{
-	game = g;
-	shotbmp = SDL_LoadBMP("./shot.bmp");
+Shot::Shot(Game* gameO, int x, int y) {
+	game = gameO;
 	pos_x = x;
 	pos_y = y;
+	shotbmp = SDL_LoadBMP("./shot.bmp");
+	std::cout << "Nowy shot: " << this << '\n';
 }
 void Shot::update() {
-	pos_y--;  // Pocisk porusza siê w górê
-	if (pos_y < 0) {  // Jeœli przekroczy³ górn¹ krawêdŸ
-		game->remove_shot(this);  // Powiadomienie `Game` o usuniêciu
+	pos_y--;  
+	if (pos_y < 90) {
+		game->remove_shot(this);  
 	}
-	else 
-	game->array[int((pos_y) / 30)][int(pos_x / 30)]++;
+	else
+	{
+		
+		game->array[int((pos_y) / 30)][int(pos_x / 30)]++;
+	//	if (game->array[int(pos_y / 30)][int(pos_x / 30)] ==2)
+		//	game->remove_shot(this);
+	}
 }
 void Shot::render()
 {

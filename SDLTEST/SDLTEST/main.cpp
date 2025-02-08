@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "Spaceship.h"
 #include "Shot.h"
+#include "Enemy.h"
 
 
 #define SCREEN_WIDTH	640
@@ -89,11 +90,18 @@ int main(int argc, char** argv) {
 
 	Game game;
 	Spaceship spaceshipObj(&game);
-	Shot shoot(&game, 1100, 580);
+	Enemy enemy1(&game, 200, 300);
+	Enemy enemy2(&game, 400, 500);
+	Enemy enemy3(&game, 120, 300);
+	//Shot shoot(&game, 1100, 580);
 	//game.shoot_s(&shoot);
 	game.add_object(&spaceshipObj);
 	//game.add_object(&shoot);
+	
 	game.init_game();
+	game.add_object(&enemy1);
+	game.add_object(&enemy2);
+	game.add_object(&enemy3);
 	game.run(spaceshipObj);
 	for (int i = 0; i < 36; i++)
 	{
