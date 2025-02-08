@@ -40,6 +40,9 @@ Game::Game()
 	charset = SDL_LoadBMP("./cs8x8.bmp");
 	eti = SDL_LoadBMP("./eti.bmp");
 	change_position = 0;
+	for (int i = 0; i < 36; i++)
+		for (int j = 0; j < 64; j++)
+			array[i][j] = 0;
 }
 Game::~Game()
 {

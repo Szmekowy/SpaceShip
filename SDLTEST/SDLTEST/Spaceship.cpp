@@ -19,6 +19,7 @@ Spaceship::Spaceship(Game *g)
 void Spaceship::update()
 {
 	pos_x += game->change_position;
+	game->array[int(pos_y / 30)][int(pos_x / 30)]++;
 }
 void Spaceship::render()
 {

@@ -95,6 +95,14 @@ int main(int argc, char** argv) {
 	//game.add_object(&shoot);
 	game.init_game();
 	game.run(spaceshipObj);
+	for (int i = 0; i < 36; i++)
+	{
+		for (int j = 0; j < 64; j++)
+		{
+			printf("%d ", game.array[i][j]);
+		}
+		printf("\n ");
+	}
 
 	SDL_Quit();
 	return 0;

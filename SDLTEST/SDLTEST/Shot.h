@@ -22,7 +22,6 @@ public:
 	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
 	void update();
 	void render();
-	//void location(Spaceship& spaceship);
 	friend class Spaceship;
 
 };

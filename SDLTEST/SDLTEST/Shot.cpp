@@ -21,6 +21,8 @@ void Shot::update() {
 	if (pos_y < 0) {  // Jeœli przekroczy³ górn¹ krawêdŸ
 		game->remove_shot(this);  // Powiadomienie `Game` o usuniêciu
 	}
+	else 
+	game->array[int((pos_y) / 30)][int(pos_x / 30)]++;
 }
 void Shot::render()
 {

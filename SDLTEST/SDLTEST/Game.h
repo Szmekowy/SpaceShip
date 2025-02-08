@@ -28,6 +28,7 @@ private:
 	vector <GameObject*> objects;
 	vector <GameObject*> shoots;
 public:
+	int array[50][64];
 	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
 	friend void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface* charset);
 	int change_position;
