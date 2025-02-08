@@ -114,21 +114,48 @@ void Game::handle_event(Spaceship &spaceship)
 		switch (event.type) {
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_ESCAPE) quit = 1;
-			else if (event.key.keysym.sym == SDLK_UP) {
-				Shot* shot = new Shot(this,spaceship.pos_x,spaceship.pos_y+20);  // Tworzymy nowy obiekt Shot
-				add_object(shot);
-			}
-			else if (event.key.keysym.sym == SDLK_RIGHT) change_position = 1;
-			else if (event.key.keysym.sym == SDLK_LEFT) change_position = -1;
+		///	else if (event.key.keysym.sym == SDLK_UP) {
+			///	Shot* shot = new Shot(this,spaceship.pos_x,spaceship.pos_y+20);  // Tworzymy nowy obiekt Shot
+			///	add_object(shot);
+			///}
+			///else if (event.key.keysym.sym == SDLK_RIGHT) change_position = 1;
+			///else if (event.key.keysym.sym == SDLK_LEFT) change_position = -1;
 			break;
 		case SDL_KEYUP:
 			etiSpeed = 1.0;
-			change_position = 0;
 			break;
 		case SDL_QUIT:
 			quit = 1;
 			break;
 		};
+		const Uint8* state = SDL_GetKeyboardState(NULL);
+		if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_LCTRL]) {
+			Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y + 20);  // Tworzymy nowy obiekt Shot
+			add_object(shot);
+			change_position = -1;
+		}
+		else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_LCTRL])
+		{
+			Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y + 20);  // Tworzymy nowy obiekt Shot
+			add_object(shot);
+			change_position = 1;
+		}
+		else if (state[SDL_SCANCODE_RIGHT])
+		{
+			change_position = 1;
+		}
+		else if (state[SDL_SCANCODE_LEFT])
+		{
+			change_position = -1;
+		}
+		else if (state[SDL_SCANCODE_LCTRL])
+		{
+			Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y + 20);  // Tworzymy nowy obiekt Shot
+			add_object(shot);
+		}
+		else
+			change_position = 0;
+
 	};
 }
 void Game :: render()
