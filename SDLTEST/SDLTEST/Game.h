@@ -15,6 +15,7 @@ using namespace std;
  void DrawRectangle(SDL_Surface* screen, int x, int y, int l, int k, Uint32 outlineColor, Uint32 fillColor);
  void DrawPixel(SDL_Surface* surface, int x, int y, Uint32 color);
  void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface* charset);
+ class Spaceshhip;
 class Game {
 private:
 	int t1, t2, quit, frames;
@@ -40,11 +41,12 @@ public:
 	~Game();
 	void add_object(GameObject*);
 	void init_game();
-	void run();
-	void handle_event();
 	void update();
 	void render();
 	void shoot_s(GameObject*);
 	void remove_shot(GameObject*);
+	friend class Spaceship;
+	void handle_event(Spaceship& spaceship);
+	void run(Spaceship& spaceship);
 };
 #endif

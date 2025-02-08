@@ -5,6 +5,7 @@
 #include <SDL2/SDL_main.h>
 #include "GameObject.h"
 #include "Game.h"
+#include "Spaceship.h"
 #ifdef __cplusplus
 extern "C"
 #endif
@@ -21,6 +22,8 @@ public:
 	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
 	void update();
 	void render();
+	//void location(Spaceship& spaceship);
+	friend class Spaceship;
 
 };
 

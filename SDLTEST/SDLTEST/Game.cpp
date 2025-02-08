@@ -79,10 +79,10 @@ void Game::init_game()
 	SDL_FillRect(screen, NULL, czarny);
 
 }
-void Game::run()
+void Game::run(Spaceship& spaceship)
 {
 	while (!quit) {
-		handle_event();
+		handle_event( spaceship);
 		update();
 		render();
 	}
@@ -108,14 +108,14 @@ void Game::update()
 		sh->update();
 	}
 }
-void Game::handle_event()
+void Game::handle_event(Spaceship &spaceship)
 {
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_ESCAPE) quit = 1;
 			else if (event.key.keysym.sym == SDLK_UP) {
-				Shot* shot = new Shot(this, 200, 1000);  // Tworzymy nowy obiekt Shot
+				Shot* shot = new Shot(this,spaceship.pos_x,spaceship.pos_y+20);  // Tworzymy nowy obiekt Shot
 				add_object(shot);
 			}
 			else if (event.key.keysym.sym == SDLK_RIGHT) change_position = 1;

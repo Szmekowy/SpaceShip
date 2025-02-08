@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
 	game.add_object(&spaceshipObj);
 	//game.add_object(&shoot);
 	game.init_game();
-	game.run();
+	game.run(spaceshipObj);
 
 	SDL_Quit();
 	return 0;
