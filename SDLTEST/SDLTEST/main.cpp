@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
 	Game game;
 	Spaceship spaceshipObj(&game);
 	Shot shoot(&game, 1100, 580);
-	game.shoot_s(&shoot);
+	//game.shoot_s(&shoot);
 	game.add_object(&spaceshipObj);
 	//game.add_object(&shoot);
 	game.init_game();

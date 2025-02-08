@@ -16,11 +16,11 @@ Shot::Shot(Game* g, int x, int y)
 	pos_x = x;
 	pos_y = y;
 }
-void Shot::update()
-{
-	pos_y++;
-	if (pos_y == 1080)
-		pos_y = 0;
+void Shot::update() {
+	pos_y--;  // Pocisk porusza siê w górê
+	if (pos_y < 0) {  // Jeœli przekroczy³ górn¹ krawêdŸ
+		game->remove_shot(this);  // Powiadomienie `Game` o usuniêciu
+	}
 }
 void Shot::render()
 {

@@ -45,5 +45,6 @@ public:
 	void update();
 	void render();
 	void shoot_s(GameObject*);
+	void remove_shot(GameObject*);
 };
 #endif

@@ -9,16 +9,18 @@
 extern "C"
 #endif
 using namespace std;
-
+void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
 class Spaceship : public GameObject {
 private:
 	int pos_x;
 	int pos_y;
-	Game* game;
+	SDL_Surface* spaceshipbmp;
+	Game *game;
 public:
-	 Spaceship(Game* gameInstance);
-	 void update() override;
-	 void render() override;
+	Spaceship(Game *g);
+	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
+	 void update();
+	 void render();
 
 };
 

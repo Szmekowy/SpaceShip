@@ -115,7 +115,7 @@ void Game::handle_event()
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_ESCAPE) quit = 1;
 			else if (event.key.keysym.sym == SDLK_UP) {
-				Shot* shot = new Shot(this, 200, 300);  // Tworzymy nowy obiekt Shot
+				Shot* shot = new Shot(this, 200, 1000);  // Tworzymy nowy obiekt Shot
 				add_object(shot);
 			}
 			else if (event.key.keysym.sym == SDLK_RIGHT) change_position = 1;
@@ -156,5 +156,12 @@ void Game::add_object(GameObject* object)
 void Game::shoot_s(GameObject* object)
 {
 	shoots.push_back(object);
+}
+void Game::remove_shot(GameObject* shot) {
+	auto it = std::find(shoots.begin(), shoots.end(), shot);
+	if (it != shoots.end()) {
+		delete* it; 
+		shoots.erase(it);  
+	}
 }
 
