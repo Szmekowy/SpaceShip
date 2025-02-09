@@ -41,6 +41,9 @@ Game::Game()
 	eti = SDL_LoadBMP("./eti.bmp");
 	change_position = 0;
 	delay = 0.1;
+	i = 1;
+	number_of_enemy = 5;
+
 	game_area();
 }
 Game::~Game()
@@ -109,6 +112,11 @@ void Game::update()
 	for (auto obj : objects) {
 		obj->update(); 
 	}
+	std::cout << objects.size();
+	for (i; i < number_of_enemy; i++) {
+		objects[i]->update();
+	}
+	i = 1;
 
 	
 }
@@ -156,7 +164,7 @@ void Game::handle_event(Spaceship &spaceship)
 }
 void Game::shoot(Spaceship& spaceship)
 {
-	if (delay > 0.1)
+	if (delay > 0.2)
 	{
 		Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y - 40);  // Tworzymy nowy obiekt Shot
 		add_object(shot);

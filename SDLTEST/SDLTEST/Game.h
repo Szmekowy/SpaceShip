@@ -29,6 +29,8 @@ private:
 	vector <GameObject*> objects;
 public:
 	int array[40][64];
+	int i;
+	int number_of_enemy;
 	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
 	friend void DrawString(SDL_Surface* screen, int x, int y, const char* text, SDL_Surface* charset);
 	int change_position;

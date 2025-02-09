@@ -16,9 +16,14 @@ Enemy::Enemy(Game* gameO, int x, int y) {
 	enemybmp = SDL_LoadBMP("./enemy.bmp");
 }
 void Enemy::update() {
-	if(game->array[int(pos_y / 30)][int(pos_x / 30)]==2)
+	if (game->array[int(pos_y / 30)][int(pos_x / 30)] == 2)
+	{
+		game->i++;
+		game->number_of_enemy--;
 		game->remove_shot(this);
-	game->array[int(pos_y / 30)][int(pos_x / 30)]=1;
+	}
+	else
+	game->array[int(pos_y / 30)][int(pos_x / 30)]++;
 }
 void Enemy::render()
 {

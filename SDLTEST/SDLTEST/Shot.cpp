@@ -23,10 +23,9 @@ void Shot::update() {
 	}
 	else
 	{
-		
 		game->array[int((pos_y) / 30)][int(pos_x / 30)]++;
-	//	if (game->array[int(pos_y / 30)][int(pos_x / 30)] ==2)
-		//	game->remove_shot(this);
+		if (game->array[int(pos_y / 30)][int(pos_x / 30)] ==2)
+			shotbmp = SDL_LoadBMP("./bum.bmp");
 	}
 }
 void Shot::render()
