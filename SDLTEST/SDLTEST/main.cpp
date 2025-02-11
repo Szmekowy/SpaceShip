@@ -4,12 +4,13 @@
 #include<stdio.h>
 #include<string.h>
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_main.h>
+#include <SDL.h>
+#include <SDL_main.h>
 #include "Game.h"
 #include "Spaceship.h"
 #include "Shot.h"
 #include "Enemy.h"
+#include <SDL_mixer.h>
 
 
 #define SCREEN_WIDTH	640
@@ -100,6 +101,18 @@ int main(int argc, char** argv) {
 	//game.add_object(&shoot);
 	
 	game.init_game();
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+		std::cerr << "Błąd inicjalizacji SDL_mixer: " << Mix_GetError() << std::endl;
+		SDL_Quit();
+		return -1;
+	}
+	Mix_Music* music = Mix_LoadMUS("cosmic.mp3");  // Upewnij się, że plik muzyczny jest w tym samym folderze co .exe
+	if (!music) {
+		std::cerr << "Błąd ładowania pliku muzycznego: " << Mix_GetError() << std::endl;
+		Mix_CloseAudio();
+		SDL_Quit();
+	}
+	Mix_PlayMusic(music, -1);
 	game.init_enemy();
 //	game.add_object(enemy1);
 //	game.add_object(enemy2);

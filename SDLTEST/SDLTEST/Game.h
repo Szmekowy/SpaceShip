@@ -1,8 +1,8 @@
 #ifndef GAME_
 #define GAME_
 #include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_main.h>
+#include <SDL.h>
+#include <SDL_main.h>
 #include "GameObject.h"
 #include <vector>
 #include <queue>

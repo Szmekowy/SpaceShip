@@ -10,6 +10,7 @@
 #include "Spaceship.h"
 #include "Shot.h"
 #include "Enemy.h"
+#include <SDL_mixer.h>
 #define SCREEN_WIDTH	1920
 #define SCREEN_HEIGHT	1080
 
@@ -58,6 +59,7 @@ Game::~Game()
 }
 void Game::init_game()
 {
+	
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -170,6 +172,21 @@ void Game::shoot(Spaceship& spaceship)
 		Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y - 40);  // Tworzymy nowy obiekt Shot
 		add_object(shot);
 		delay = 0;
+		/*
+		Mix_Music* music = Mix_LoadMUS("laser.mp3");  // Upewnij się, że plik muzyczny jest w tym samym folderze co .exe
+		if (!music) {
+			std::cerr << "Błąd ładowania pliku muzycznego: " << Mix_GetError() << std::endl;
+			Mix_CloseAudio();
+			SDL_Quit();
+		}
+		Mix_PlayMusic(music, 0);
+		*/
+		Mix_Chunk* soundEffect = Mix_LoadWAV("laser.wav");
+		if (soundEffect == nullptr) {
+			printf("Nie udało się załadować efektu dźwiękowego: %s\n", Mix_GetError());
+		}
+		Mix_PlayChannel(-1, soundEffect, 0);
+	
 	}
 }
 void Game :: render()

@@ -7,6 +7,7 @@
 #include "Enemy.h"
 #include "Game.h"
 #include <cstdlib>
+#include <SDL_mixer.h>
 #include <ctime>
 
 using namespace std;
@@ -24,6 +25,12 @@ Enemy::Enemy(Game* gameO, int x, int y) {
 void Enemy::update() {
 	if (game->array[int(pos_y / 30)][int(pos_x / 30)] %2==1 && game->array[int(pos_y / 30)][int(pos_x / 30)]!=1)
 	{
+		Mix_Chunk* soundEffect = Mix_LoadWAV("explosion.wav");
+		if (soundEffect == nullptr) {
+			printf("Nie uda³o siê za³adowaæ efektu dŸwiêkowego: %s\n", Mix_GetError());
+			
+		}
+		Mix_PlayChannel(-1, soundEffect, 0);
 		game->i++;
 		game->number_of_enemy--;
 		game->remove_shot(this);

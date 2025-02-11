@@ -1,8 +1,3 @@
-﻿  Game.cpp
-C:\Users\szmek\OneDrive\Pulpit\SDLTEST\SDLTEST\Game.cpp(139,98): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
-C:\Users\szmek\OneDrive\Pulpit\SDLTEST\SDLTEST\Game.cpp(139,44): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
-C:\Users\szmek\OneDrive\Pulpit\SDLTEST\SDLTEST\Game.cpp(142,36): warning C4267: "argument": konwersja z "size_t" do "int", możliwa utrata danych
-C:\Users\szmek\OneDrive\Pulpit\SDLTEST\SDLTEST\Game.cpp(144,36): warning C4267: "argument": konwersja z "size_t" do "int", możliwa utrata danych
-  Spaceship.cpp
-  Generowanie kodu...
-  SDLTEST.vcxproj -> C:\Users\szmek\OneDrive\Pulpit\SDLTEST\x64\Debug\SDLTEST.exe
+﻿  Enemy.cpp
+C:\Users\szmek\OneDrive\Pulpit\SpaceShip\SDLTEST\SDLTEST\Enemy.cpp(23,12): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+  SDLTEST.vcxproj -> C:\Users\szmek\OneDrive\Pulpit\SpaceShip\SDLTEST\x64\Debug\SDLTEST.exe
