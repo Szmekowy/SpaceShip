@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <SDL_mixer.h>
 #include <ctime>
+#include "Coin.h"
 
 using namespace std;
 
@@ -31,13 +32,16 @@ void Enemy::update() {
 			
 		}
 		Mix_PlayChannel(-1, soundEffect, 0);
+		int a = rand() % 10;
+		if (a > 5)
+			coin();
 		game->i++;
 		game->number_of_enemy--;
 		game->remove_shot(this);
 	}
 	else
 	{
-		if (move_delay >= 0.01)
+		if (move_delay >= 0.05)
 		{
 			if (move_right)
 			{
@@ -69,4 +73,9 @@ void Enemy::update() {
 void Enemy::render()
 {
 	DrawSurface(game->screen, enemybmp, pos_x, pos_y);
+}
+void Enemy::coin()
+{
+	Coin* coin = new Coin(game, pos_x, pos_y);
+	game->add_object(coin);
 }

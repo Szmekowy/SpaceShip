@@ -28,6 +28,7 @@ private:
 	int niebieski;
 	vector <GameObject*> objects;
 public:
+	double money;
 	double delta;
 	int array[40][64];
 	int i;

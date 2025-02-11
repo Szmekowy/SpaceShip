@@ -17,8 +17,17 @@ Spaceship::Spaceship(Game *g)
 	pos_y = 1065;
 }
 void Spaceship::update()
-{
-	pos_x += game->change_position;
+{	
+	if (game->change_position == -1)
+	{
+		if (pos_x > 150)
+			pos_x--;
+	}
+	else if(game->change_position == 1)
+	{
+		if (pos_x < 1830)
+			pos_x++;
+	}
 	game->array[int(pos_y / 30)][int(pos_x / 30)]++;
 }
 void Spaceship::render()

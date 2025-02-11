@@ -1,5 +1,5 @@
-#ifndef Enemy_
-#define Enemy_
+#ifndef COIN_
+#define COIN_
 #include <iostream>
 #include <SDL.h>
 #include <SDL_main.h>
@@ -10,21 +10,19 @@ extern "C"
 #endif
 using namespace std;
 void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
-class Enemy : public GameObject {
+class Coin : public GameObject {
 private:
 	int pos_x;
 	int pos_y;
-	SDL_Surface* enemybmp;
+	SDL_Surface* coinbmp;
 	Game* game;
-	int move_right;
-	int move_left;
-	double move_delay;
+	int hit;
+	double animation_delay;
 public:
-	Enemy(Game* g, int x, int y);
+	Coin(Game* g, int x, int y);
 	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
 	void update();
 	void render();
-	void coin();
 };
 
 #endif
