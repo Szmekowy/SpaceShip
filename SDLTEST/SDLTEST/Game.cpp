@@ -45,6 +45,7 @@ Game::Game()
 	delay = 0.1;
 	i = 1;
 	number_of_enemy = 40;
+	money = 0;
 
 	game_area();
 }
@@ -115,7 +116,7 @@ void Game::update()
 	for (auto obj : objects) {
 		obj->update(); 
 	}
-	std::cout << objects.size();
+
 	for (i; i <= number_of_enemy; i++) {
 		objects[i]->update();
 	}
@@ -159,6 +160,7 @@ void Game::handle_event(Spaceship &spaceship)
 		else if (state[SDL_SCANCODE_LCTRL])
 		{
 			shoot(spaceship);
+			change_position = 0;
 		}
 		else
 			change_position = 0;
@@ -167,20 +169,11 @@ void Game::handle_event(Spaceship &spaceship)
 }
 void Game::shoot(Spaceship& spaceship)
 {
-	if (delay > 0.2)
+	if (delay > 0.1)
 	{
 		Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y - 40);  // Tworzymy nowy obiekt Shot
 		add_object(shot);
 		delay = 0;
-		/*
-		Mix_Music* music = Mix_LoadMUS("laser.mp3");  // Upewnij się, że plik muzyczny jest w tym samym folderze co .exe
-		if (!music) {
-			std::cerr << "Błąd ładowania pliku muzycznego: " << Mix_GetError() << std::endl;
-			Mix_CloseAudio();
-			SDL_Quit();
-		}
-		Mix_PlayMusic(music, 0);
-		*/
 		Mix_Chunk* soundEffect = Mix_LoadWAV("laser.wav");
 		if (soundEffect == nullptr) {
 			printf("Nie udało się załadować efektu dźwiękowego: %s\n", Mix_GetError());
@@ -197,9 +190,9 @@ void Game :: render()
 		}
 		
 		DrawRectangle(screen, 4, 4, SCREEN_WIDTH - 8, 36, czerwony, niebieski);
-		sprintf(text, "Szablon drugiego zadania, czas trwania = %.1lf s  %.0lf klatek / s", worldTime, fps);
+		sprintf(text, "Kosmiczna podróż czas trwania = %.1lf s  %.0lf klatek / s", worldTime, fps);
 		DrawString(screen, screen->w / 2 - strlen(text) * 8 / 2, 10, text, charset);
-		sprintf(text, "Esc - wyjscie, \030 - przyspieszenie, \031 - zwolnienie");
+		sprintf(text, "Stan konta %.1lf zl", money);
 		DrawString(screen, screen->w / 2 - strlen(text) * 8 / 2, 26, text, charset);
 		SDL_UpdateTexture(scrtex, NULL, screen->pixels, screen->pitch);
 		SDL_RenderCopy(renderer, scrtex, NULL, NULL);
@@ -220,7 +213,7 @@ void Game::remove_shot(GameObject* shot) {
 void Game::game_area()
 {
 	for (int i = 0; i < 36; i++)
-		for (int j = 0; j < 64; j++)
+		for (int j = 0; j < 1920; j++)
 			array[i][j] = 0;
 }
 void Game::init_enemy()

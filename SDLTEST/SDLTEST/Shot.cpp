@@ -25,8 +25,8 @@ void Shot::update() {
 	else
 	{
 		if(!hit)
-		game->array[int((pos_y+5) / 30)][int((pos_x+5) / 30)]+=2;
-		if (game->array[int((pos_y + 5) / 30)][int((pos_x + 5) / 30)] % 2 == 1)
+		game->array[int((pos_y+5) / 30)][pos_x]+=2;
+		if (game->array[int((pos_y + 5) / 30)][pos_x] % 2 == 1)
 		{
 			if (!hit)
 				animation_delay = 0;

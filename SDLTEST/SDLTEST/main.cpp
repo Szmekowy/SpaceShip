@@ -121,7 +121,7 @@ int main(int argc, char** argv) {
 	game.run(spaceshipObj);
 	for (int i = 0; i < 36; i++)
 	{
-		for (int j = 0; j < 64; j++)
+		for (int j = 0; j < 120; j++)
 		{
 			printf("%d ", game.array[i][j]);
 		}

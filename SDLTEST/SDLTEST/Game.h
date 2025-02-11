@@ -30,7 +30,7 @@ private:
 public:
 	double money;
 	double delta;
-	int array[40][64];
+	int array[40][1920];
 	int i;
 	int number_of_enemy;
 	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);

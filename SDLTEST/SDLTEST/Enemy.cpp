@@ -24,51 +24,31 @@ Enemy::Enemy(Game* gameO, int x, int y) {
 	srand(time(nullptr));
 }
 void Enemy::update() {
-	if (game->array[int(pos_y / 30)][int(pos_x / 30)] %2==1 && game->array[int(pos_y / 30)][int(pos_x / 30)]!=1)
+	move();
+	for (int k = pos_x - 15; k < pos_x + 15; k++)
 	{
-		Mix_Chunk* soundEffect = Mix_LoadWAV("explosion.wav");
-		if (soundEffect == nullptr) {
-			printf("Nie uda³o siê za³adowaæ efektu dŸwiêkowego: %s\n", Mix_GetError());
-			
-		}
-		Mix_PlayChannel(-1, soundEffect, 0);
-		int a = rand() % 10;
-		if (a > 5)
-			coin();
-		game->i++;
-		game->number_of_enemy--;
-		game->remove_shot(this);
-	}
-	else
-	{
-		if (move_delay >= 0.05)
+		if (game->array[int(pos_y / 30)][k] % 2 == 1 && game->array[int(pos_y / 30)][k] != 1)
 		{
-			if (move_right)
-			{
-				pos_x++;
-				move_right++;
-			}
-			if (move_left)
-			{
-				pos_x--;
-				move_left++;
-			}
-			if (move_right > 60)
-			{
-				move_right = 0;
-				move_left = 1;
-			}
-			if (move_left > 60)
-			{
-				move_right = 1;
-				move_left = 0;
-			}
-			move_delay = 0;
-		}
-		move_delay += game->delta;
+			Mix_Chunk* soundEffect = Mix_LoadWAV("explosion.wav");
+			if (soundEffect == nullptr) {
+				printf("Nie uda³o siê za³adowaæ efektu dŸwiêkowego: %s\n", Mix_GetError());
 
-		game->array[int(pos_y / 30)][int(pos_x / 30)]++;
+			}
+			Mix_PlayChannel(-1, soundEffect, 0);
+			int a = rand() % 10;
+			if (a > 5)
+				coin();
+			game->i++;
+			game->number_of_enemy--;
+			game->remove_shot(this);
+			return;
+		}
+		else
+		{
+				game->array[int(pos_y / 30)][k]++;
+		}
 	}
+	
 }
 void Enemy::render()
 {
@@ -78,4 +58,32 @@ void Enemy::coin()
 {
 	Coin* coin = new Coin(game, pos_x, pos_y);
 	game->add_object(coin);
+}
+void Enemy::move()
+{
+	if (move_delay >= 0.05)
+	{
+		if (move_right)
+		{
+			pos_x++;
+			move_right++;
+		}
+		if (move_left)
+		{
+			pos_x--;
+			move_left++;
+		}
+		if (move_right > 60)
+		{
+			move_right = 0;
+			move_left = 1;
+		}
+		if (move_left > 60)
+		{
+			move_right = 1;
+			move_left = 0;
+		}
+		move_delay = 0;
+	}
+	move_delay += game->delta;
 }

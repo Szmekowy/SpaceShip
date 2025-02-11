@@ -28,7 +28,8 @@ void Spaceship::update()
 		if (pos_x < 1830)
 			pos_x++;
 	}
-	game->array[int(pos_y / 30)][int(pos_x / 30)]++;
+	for (int k = pos_x - 15; k < pos_x + 15; k++)
+	game->array[int(pos_y / 30)][k]=3;
 }
 void Spaceship::render()
 {
