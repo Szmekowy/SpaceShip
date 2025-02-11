@@ -20,7 +20,7 @@ class Game {
 private:
 	int t1, t2, quit, frames;
 	double delay;
-	double delta, worldTime, fpsTimer, fps, distance, etiSpeed;
+	double worldTime, fpsTimer, fps, distance, etiSpeed;
 	char text[128];
 	int czarny;
 	int zielony;
@@ -28,6 +28,7 @@ private:
 	int niebieski;
 	vector <GameObject*> objects;
 public:
+	double delta;
 	int array[40][64];
 	int i;
 	int number_of_enemy;
@@ -52,5 +53,6 @@ public:
 	void run(Spaceship& spaceship);
 	void game_area();
 	void shoot(Spaceship& spaceship);
+	void init_enemy();
 };
 #endif

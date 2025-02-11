@@ -90,20 +90,21 @@ int main(int argc, char** argv) {
 
 	Game game;
 	Spaceship spaceshipObj(&game);
-	Enemy *enemy1 = new Enemy(&game, 200, 300);
-	Enemy* enemy2 = new Enemy(&game, 500, 300);
-	Enemy* enemy3 = new Enemy(&game, 1000, 400);
-	Enemy* enemy4 = new Enemy(&game, 200, 500);
+//	Enemy *enemy1 = new Enemy(&game, 200, 300);
+//	Enemy* enemy2 = new Enemy(&game, 500, 300);
+//	Enemy* enemy3 = new Enemy(&game, 1000, 400);
+//	Enemy* enemy4 = new Enemy(&game, 200, 500);
 	//Shot shoot(&game, 1100, 580);
 	//game.shoot_s(&shoot);
 	game.add_object(&spaceshipObj);
 	//game.add_object(&shoot);
 	
 	game.init_game();
-	game.add_object(enemy1);
-	game.add_object(enemy2);
-	game.add_object(enemy3);
-	game.add_object(enemy4);
+	game.init_enemy();
+//	game.add_object(enemy1);
+//	game.add_object(enemy2);
+//	game.add_object(enemy3);
+//	game.add_object(enemy4);
 	game.run(spaceshipObj);
 	for (int i = 0; i < 36; i++)
 	{

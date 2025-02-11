@@ -14,7 +14,8 @@ Shot::Shot(Game* gameO, int x, int y) {
 	pos_x = x;
 	pos_y = y;
 	shotbmp = SDL_LoadBMP("./shot.bmp");
-	std::cout << "Nowy shot: " << this << '\n';
+	hit = 0;
+	animation_delay = 0.5;
 }
 void Shot::update() {
 	pos_y--;  
@@ -23,9 +24,22 @@ void Shot::update() {
 	}
 	else
 	{
-		game->array[int((pos_y) / 30)][int(pos_x / 30)]++;
-		if (game->array[int(pos_y / 30)][int(pos_x / 30)] ==2)
+		if(!hit)
+		game->array[int((pos_y) / 30)][int(pos_x / 30)]+=2;
+		if (game->array[int(pos_y / 30)][int(pos_x / 30)] % 2 == 1)
+		{
+			if (!hit)
+				animation_delay = 0;
+			hit = 1;
+		}
+		animation_delay += game->delta;
+	}
+	if (hit)
+	{
+		if (animation_delay < 0.1)
 			shotbmp = SDL_LoadBMP("./bum.bmp");
+		else
+			shotbmp = SDL_LoadBMP("./empty_shot.bmp");
 	}
 }
 void Shot::render()

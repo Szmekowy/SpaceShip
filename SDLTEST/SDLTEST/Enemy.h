@@ -16,6 +16,9 @@ private:
 	int pos_y;
 	SDL_Surface* enemybmp;
 	Game* game;
+	int move_right;
+	int move_left;
+	double move_delay;
 public:
 	Enemy(Game* g, int x, int y);
 	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);

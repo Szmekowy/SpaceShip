@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "Spaceship.h"
 #include "Shot.h"
+#include "Enemy.h"
 #define SCREEN_WIDTH	1920
 #define SCREEN_HEIGHT	1080
 
@@ -42,7 +43,7 @@ Game::Game()
 	change_position = 0;
 	delay = 0.1;
 	i = 1;
-	number_of_enemy = 5;
+	number_of_enemy = 40;
 
 	game_area();
 }
@@ -113,7 +114,7 @@ void Game::update()
 		obj->update(); 
 	}
 	std::cout << objects.size();
-	for (i; i < number_of_enemy; i++) {
+	for (i; i <= number_of_enemy; i++) {
 		objects[i]->update();
 	}
 	i = 1;
@@ -204,4 +205,21 @@ void Game::game_area()
 	for (int i = 0; i < 36; i++)
 		for (int j = 0; j < 64; j++)
 			array[i][j] = 0;
+}
+void Game::init_enemy()
+{
+	int x = 60;
+	for (int i = 0; i < number_of_enemy/2; i++)
+	{
+		Enemy* enemy = new Enemy(this, x, 300);
+		add_object(enemy);
+		x += 75;
+	}
+	x = 90;
+	for (int i = 0; i < number_of_enemy / 2; i++)
+	{
+		Enemy* enemy = new Enemy(this, x, 500);
+		add_object(enemy);
+		x += 75;
+	}
 }

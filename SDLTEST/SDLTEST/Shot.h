@@ -17,6 +17,8 @@ private:
 	int pos_y;
 	SDL_Surface* shotbmp;
 	Game* game;
+	int hit;
+	double animation_delay;
 public:
 	Shot(Game* g, int x, int y);
 	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
