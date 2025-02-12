@@ -28,6 +28,7 @@ private:
 	int niebieski;
 	vector <GameObject*> objects;
 public:
+	int type_of_ammo;
 	double money;
 	double delta;
 	int array[40][1920];

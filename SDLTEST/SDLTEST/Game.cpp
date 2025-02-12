@@ -11,6 +11,7 @@
 #include "Shot.h"
 #include "Enemy.h"
 #include "InfoScreen.h"
+#include "Shop.h"
 #include <SDL_mixer.h>
 #define SCREEN_WIDTH	1920
 #define SCREEN_HEIGHT	1080
@@ -45,9 +46,9 @@ Game::Game()
 	change_position = 0;
 	delay = 0.1;
 	i = 1;
-	number_of_enemy = 2;
+	number_of_enemy = 10;
 	money = 0;
-
+	type_of_ammo = 1;
 	game_area();
 }
 Game::~Game()
@@ -173,8 +174,38 @@ void Game::shoot(Spaceship& spaceship)
 {
 	if (delay > 0.1)
 	{
-		Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y - 40);  // Tworzymy nowy obiekt Shot
-		add_object(shot);
+		if (type_of_ammo == 1)
+		{
+			Shot* shot = new Shot(this, spaceship.pos_x, spaceship.pos_y - 40); 
+			add_object(shot);
+		}
+		else if (type_of_ammo == 2)
+		{
+			Shot* shot1 = new Shot(this, spaceship.pos_x - 20, spaceship.pos_y - 40); 
+			add_object(shot1);
+			Shot* shot2 = new Shot(this, spaceship.pos_x +20, spaceship.pos_y - 40);  
+			add_object(shot2);
+		}
+		else if (type_of_ammo == 3)
+		{
+			Shot* shot1 = new Shot(this, spaceship.pos_x - 20, spaceship.pos_y - 40);
+			add_object(shot1);
+			Shot* shot2 = new Shot(this, spaceship.pos_x + 20, spaceship.pos_y - 40);
+			add_object(shot2);
+			Shot* shot3 = new Shot(this, spaceship.pos_x, spaceship.pos_y - 40);
+			add_object(shot3);
+		}
+		else if (type_of_ammo == 4)
+		{
+			Shot* shot1 = new Shot(this, spaceship.pos_x - 10, spaceship.pos_y - 40); 
+			add_object(shot1);
+			Shot* shot2 = new Shot(this, spaceship.pos_x + 10, spaceship.pos_y - 40);  
+			add_object(shot2);
+			Shot* shot3 = new Shot(this, spaceship.pos_x - 20, spaceship.pos_y - 40);  
+			add_object(shot3);
+			Shot* shot4 = new Shot(this, spaceship.pos_x + 20, spaceship.pos_y - 40); 
+			add_object(shot4);
+		}
 		delay = 0;
 		Mix_Chunk* soundEffect = Mix_LoadWAV("laser.wav");
 		if (soundEffect == nullptr) {
@@ -243,8 +274,17 @@ void Game::end_level()
 		char news[128] =  "Brawo ukonczyles poziom, nacisnij spacje aby kontynuowac" ;
 		InfoScreen* level = new InfoScreen(this, news);
 		level->update();
-		number_of_enemy = 4;
+		SDL_FillRect(screen, NULL, czarny);
+		Shop* shop = new Shop(this);
+		shop->update();
+		for (int j = objects.size() - 1; j > 0; j--) {
+			delete objects[j];  
+			objects.erase(objects.begin() + j);  
+		}
+		i = 1;
+		number_of_enemy = 10;
 		init_enemy();
 		delete level;
+		delete shop;
 	}
 }

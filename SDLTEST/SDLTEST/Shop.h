@@ -10,16 +10,14 @@ extern "C"
 #endif
 using namespace std;
 
-class InfoScreen : public GameObject {
+class Shop : public GameObject {
 private:
 	Game* game;
-	char text[128];
-	char news[128];
+	int prices[4];
 public:
-	InfoScreen(Game* g, char tab[]);
+	Shop(Game* g);
 	void update();
 	void render();
-
 };
 
 #endif

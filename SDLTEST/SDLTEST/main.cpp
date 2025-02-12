@@ -10,6 +10,7 @@
 #include "Spaceship.h"
 #include "Shot.h"
 #include "Enemy.h"
+#include "InfoScreen.h"
 #include <SDL_mixer.h>
 
 
@@ -113,6 +114,10 @@ int main(int argc, char** argv) {
 		SDL_Quit();
 	}
 	Mix_PlayMusic(music, -1);
+	char news[128] = "Nacisnij spacje aby rozpoczac";
+	InfoScreen* start = new InfoScreen(&game, news);
+	start->update();
+	delete start;
 	game.init_enemy();
 //	game.add_object(enemy1);
 //	game.add_object(enemy2);
