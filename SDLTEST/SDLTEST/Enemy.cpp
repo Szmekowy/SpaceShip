@@ -10,6 +10,7 @@
 #include <SDL_mixer.h>
 #include <ctime>
 #include "Coin.h"
+#include "EnemyAttack.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ Enemy::Enemy(Game* gameO, int x, int y) {
 	move_right = 1;
 	move_left = 0;
 	move_delay = 0.2;
-	srand(time(nullptr));
+	shot_delay = 1;
 }
 void Enemy::update() {
 	move();
@@ -46,6 +47,16 @@ void Enemy::update() {
 		else
 		{
 				game->array[int(pos_y / 30)][k]++;
+				if (shot_delay > 2)
+				{
+					shot_delay = 0;
+					int p = rand() % 10;
+					if (p > 5)
+					{
+						EnemyAttack* shot = new EnemyAttack(game, pos_x, pos_y + 20);
+						game->add_object(shot);
+					}
+				}
 		}
 	}
 	
@@ -86,4 +97,5 @@ void Enemy::move()
 		move_delay = 0;
 	}
 	move_delay += game->delta;
+	shot_delay += game->delta;
 }

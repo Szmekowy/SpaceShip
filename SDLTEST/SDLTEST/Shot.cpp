@@ -20,6 +20,7 @@ Shot::Shot(Game* gameO, int x, int y) {
 void Shot::update() {
 	pos_y--;  
 	if (pos_y < 90) {
+		game->object_iterator++;
 		game->remove_shot(this);  
 	}
 	else

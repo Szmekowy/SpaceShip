@@ -13,6 +13,8 @@
 #include "InfoScreen.h"
 #include "Shop.h"
 #include <SDL_mixer.h>
+#include <cstdlib>
+#include <ctime>
 #define SCREEN_WIDTH	1920
 #define SCREEN_HEIGHT	1080
 
@@ -46,10 +48,12 @@ Game::Game()
 	change_position = 0;
 	delay = 0.1;
 	i = 1;
-	number_of_enemy = 10;
+	number_of_enemy = 0;
 	money = 0;
 	type_of_ammo = 1;
 	game_area();
+	srand(time(nullptr));
+	object_iterator = 0;
 }
 Game::~Game()
 {
@@ -116,10 +120,14 @@ void Game::update()
 		fpsTimer -= 0.5;
 	};
 	frames++;
-	for (auto obj : objects) {
-		obj->update(); 
+	//for (auto obj : objects) {
+	//	obj->update(); 
+	//}
+	for (object_iterator; object_iterator < objects.size(); object_iterator++)
+	{
+		objects[object_iterator]->update();
 	}
-
+	object_iterator = 0;
 	for (i; i <= number_of_enemy; i++) {
 		objects[i]->update();
 	}
@@ -251,20 +259,24 @@ void Game::game_area()
 }
 void Game::init_enemy()
 {
-	int x = 160;
-	for (int i = 0; i < number_of_enemy/2; i++)
+	int enemies_in_row = rand()%20;
+	int x;
+	int rows = rand() % 7+1;
+	int y = 200;
+	for (int j = 0; j < rows; j++)
 	{
-		Enemy* enemy = new Enemy(this, x, 300);
-		add_object(enemy);
-		x += 75;
+		int enemies_in_row = rand() % 10+2;
+		number_of_enemy += enemies_in_row;
+		x = (1920 - enemies_in_row * 105) / 2;
+		for (int k = 0; k < enemies_in_row; k++)
+		{
+			Enemy* enemy = new Enemy(this, x, y);
+			add_object(enemy);
+			x += 75;
+		}
+		y += 100;
 	}
-	x = 190;
-	for (int i = 0; i < number_of_enemy / 2; i++)
-	{
-		Enemy* enemy = new Enemy(this, x, 500);
-		add_object(enemy);
-		x += 75;
-	}
+	
 }
 void Game::end_level()
 {
@@ -282,7 +294,8 @@ void Game::end_level()
 			objects.erase(objects.begin() + j);  
 		}
 		i = 1;
-		number_of_enemy = 10;
+		number_of_enemy = 0;
+		object_iterator = 0;
 		init_enemy();
 		delete level;
 		delete shop;
