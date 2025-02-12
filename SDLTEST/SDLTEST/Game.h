@@ -55,5 +55,6 @@ public:
 	void game_area();
 	void shoot(Spaceship& spaceship);
 	void init_enemy();
+	void end_level();
 };
 #endif

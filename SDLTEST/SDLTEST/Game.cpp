@@ -10,6 +10,7 @@
 #include "Spaceship.h"
 #include "Shot.h"
 #include "Enemy.h"
+#include "InfoScreen.h"
 #include <SDL_mixer.h>
 #define SCREEN_WIDTH	1920
 #define SCREEN_HEIGHT	1080
@@ -44,7 +45,7 @@ Game::Game()
 	change_position = 0;
 	delay = 0.1;
 	i = 1;
-	number_of_enemy = 40;
+	number_of_enemy = 2;
 	money = 0;
 
 	game_area();
@@ -96,6 +97,7 @@ void Game::run(Spaceship& spaceship)
 		render();
 		if(quit!=1)
 		game_area();
+		end_level();
 	}
 }
 void Game::update()
@@ -218,18 +220,31 @@ void Game::game_area()
 }
 void Game::init_enemy()
 {
-	int x = 60;
+	int x = 160;
 	for (int i = 0; i < number_of_enemy/2; i++)
 	{
 		Enemy* enemy = new Enemy(this, x, 300);
 		add_object(enemy);
 		x += 75;
 	}
-	x = 90;
+	x = 190;
 	for (int i = 0; i < number_of_enemy / 2; i++)
 	{
 		Enemy* enemy = new Enemy(this, x, 500);
 		add_object(enemy);
 		x += 75;
+	}
+}
+void Game::end_level()
+{
+	if (number_of_enemy == 0)
+	{
+		SDL_FillRect(screen, NULL, czarny);
+		char news[128] =  "Brawo ukonczyles poziom, nacisnij spacje aby kontynuowac" ;
+		InfoScreen* level = new InfoScreen(this, news);
+		level->update();
+		number_of_enemy = 4;
+		init_enemy();
+		delete level;
 	}
 }
