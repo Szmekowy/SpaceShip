@@ -18,7 +18,7 @@ using namespace std;
  class Spaceshhip;
 class Game {
 private:
-	int t1, t2, quit, frames;
+	int t1, t2, frames;
 	double delay;
 	double worldTime, fpsTimer, fps, distance, etiSpeed;
 	char text[128];
@@ -27,7 +27,11 @@ private:
 	int czerwony;
 	int niebieski;
 	vector <GameObject*> objects;
+	int level;
 public:
+	double shooting_intensity;
+	int quit;
+	int life;
 	int object_iterator;
 	int type_of_ammo;
 	double money;
@@ -41,6 +45,7 @@ public:
 	SDL_Event event;
 	SDL_Surface* screen, * charset;
 	SDL_Surface* eti;
+	SDL_Surface* heartbmp;
 	SDL_Texture* scrtex;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
@@ -58,5 +63,6 @@ public:
 	void shoot(Spaceship& spaceship);
 	void init_enemy();
 	void end_level();
+	void actual_life();
 };
 #endif

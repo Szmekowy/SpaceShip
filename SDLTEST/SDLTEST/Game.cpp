@@ -45,6 +45,7 @@ Game::Game()
 	niebieski = SDL_MapRGB(screen->format, 0x11, 0x11, 0xCC);
 	charset = SDL_LoadBMP("./cs8x8.bmp");
 	eti = SDL_LoadBMP("./eti.bmp");
+	heartbmp = SDL_LoadBMP("./heart.bmp");
 	change_position = 0;
 	delay = 0.1;
 	i = 1;
@@ -54,6 +55,9 @@ Game::Game()
 	game_area();
 	srand(time(nullptr));
 	object_iterator = 0;
+	life = 3;
+	shooting_intensity = 0.4;
+	level = 1;
 }
 Game::~Game()
 {
@@ -180,7 +184,7 @@ void Game::handle_event(Spaceship &spaceship)
 }
 void Game::shoot(Spaceship& spaceship)
 {
-	if (delay > 0.1)
+	if (delay > shooting_intensity)
 	{
 		if (type_of_ammo == 1)
 		{
@@ -229,7 +233,7 @@ void Game :: render()
 		for (auto obj : objects) {
 			obj->render(); 
 		}
-		
+		actual_life();
 		DrawRectangle(screen, 4, 4, SCREEN_WIDTH - 8, 36, czerwony, niebieski);
 		sprintf(text, "Kosmiczna podróż czas trwania = %.1lf s  %.0lf klatek / s", worldTime, fps);
 		DrawString(screen, screen->w / 2 - strlen(text) * 8 / 2, 10, text, charset);
@@ -261,11 +265,15 @@ void Game::init_enemy()
 {
 	int enemies_in_row = rand()%20;
 	int x;
-	int rows = rand() % 7+1;
+	int rows = rand() % 3+level;
+	if (rows > 10)
+		rows = 10;
 	int y = 200;
 	for (int j = 0; j < rows; j++)
 	{
-		int enemies_in_row = rand() % 10+2;
+		int enemies_in_row = rand() % 5+level*2;
+		if (enemies_in_row > 20)
+			enemies_in_row = 20;
 		number_of_enemy += enemies_in_row;
 		x = (1920 - enemies_in_row * 105) / 2;
 		for (int k = 0; k < enemies_in_row; k++)
@@ -284,8 +292,8 @@ void Game::end_level()
 	{
 		SDL_FillRect(screen, NULL, czarny);
 		char news[128] =  "Brawo ukonczyles poziom, nacisnij spacje aby kontynuowac" ;
-		InfoScreen* level = new InfoScreen(this, news);
-		level->update();
+		InfoScreen* levelup = new InfoScreen(this, news);
+		levelup->update();
 		SDL_FillRect(screen, NULL, czarny);
 		Shop* shop = new Shop(this);
 		shop->update();
@@ -293,11 +301,22 @@ void Game::end_level()
 			delete objects[j];  
 			objects.erase(objects.begin() + j);  
 		}
+		level++;
 		i = 1;
 		number_of_enemy = 0;
 		object_iterator = 0;
 		init_enemy();
-		delete level;
+		delete levelup;
 		delete shop;
+	}
+}
+void Game::actual_life()
+{
+	int x = 50;
+	int y = 150;
+	for (int j = 0; j < life; j++)
+	{
+		x += 30;
+		DrawSurface(screen, heartbmp, x, y);
 	}
 }

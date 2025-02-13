@@ -6,7 +6,7 @@
 #include<string.h>
 #include "EnemyAttack.h"
 #include "Game.h"
-
+#include <SDL_mixer.h>
 using namespace std;
 
 EnemyAttack::EnemyAttack(Game* gameO, int x, int y) {
@@ -24,11 +24,32 @@ void EnemyAttack::update() {
 	}
 	else
 	{
-			game->array[int((pos_y + 5) / 30)][pos_x] += 3;
+			game->array[int((pos_y + 5) / 30)][pos_x] += 5;
+			if (hit())
+			{
+				game->object_iterator++;
+				game->remove_shot(this);
+			}
 	}
 	
 }
 void EnemyAttack::render()
 {
 	DrawSurface(game->screen, enemyattackbmp, pos_x, pos_y);
+}
+bool EnemyAttack::hit()
+{
+	if (game->life == 0)
+		game->quit = 1;
+	if (game->array[int((pos_y + 5) / 30)][pos_x] == 8)
+	{
+		Mix_Chunk* soundEffect = Mix_LoadWAV("hit.wav");
+		if (soundEffect == nullptr) {
+			printf("Nie uda³o siê za³adowaæ efektu dŸwiêkowego: %s\n", Mix_GetError());
+		}
+		Mix_PlayChannel(-1, soundEffect, 0);
+		game->life--;
+		return true;
+	}
+	return false;
 }

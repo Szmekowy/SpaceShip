@@ -21,6 +21,7 @@ public:
 	friend void DrawSurface(SDL_Surface* screen, SDL_Surface* sprite, int x, int y);
 	void update();
 	void render();
+	bool hit();
 
 };
 

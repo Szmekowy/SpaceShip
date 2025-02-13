@@ -28,7 +28,7 @@ void Enemy::update() {
 	move();
 	for (int k = pos_x - 15; k < pos_x + 15; k++)
 	{
-		if (game->array[int(pos_y / 30)][k] % 2 == 1 && game->array[int(pos_y / 30)][k] != 1)
+		if (game->array[int(pos_y / 30)][k]  == 3 && game->array[int(pos_y / 30)][k] != 1)
 		{
 			Mix_Chunk* soundEffect = Mix_LoadWAV("explosion.wav");
 			if (soundEffect == nullptr) {
@@ -47,6 +47,7 @@ void Enemy::update() {
 		else
 		{
 				game->array[int(pos_y / 30)][k]++;
+			
 				if (shot_delay > 2)
 				{
 					shot_delay = 0;
@@ -57,6 +58,7 @@ void Enemy::update() {
 						game->add_object(shot);
 					}
 				}
+				
 		}
 	}
 	

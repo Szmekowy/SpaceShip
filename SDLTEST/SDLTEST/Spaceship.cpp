@@ -29,9 +29,11 @@ void Spaceship::update()
 			pos_x++;
 	}
 	for (int k = pos_x - 15; k < pos_x + 15; k++)
-	game->array[int(pos_y / 30)][k]=3;
+	game->array[int(pos_y / 30)][k]+=3;
+
 }
 void Spaceship::render()
 {
 	DrawSurface(game->screen, spaceshipbmp, pos_x, pos_y);
 }
+
