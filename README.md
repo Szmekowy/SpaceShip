@@ -41,7 +41,7 @@ To compile and run the game, follow these steps:
 
 2) Clone the repository
 
-3) Navigate to the project directory: cd space_battle
+3) Navigate to the project directory: cd SDLTEST/SDLTEST
 
  4) Compile the game:
 
@@ -52,6 +52,7 @@ To compile and run the game, follow these steps:
 6) Run the game: ./space_battle
 
 #### Windows (Visual Studio)
+0) source files are located in SDLTEST/SDLTEST
 
 1) Install Visual Studio with C++ development tools.
 
